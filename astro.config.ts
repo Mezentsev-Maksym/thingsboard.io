@@ -39,6 +39,13 @@ export default defineConfig({
     },
     redirects,
     vite: {
+        server: {
+            watch: {
+                // Avoid Linux ENOSPC (inotify watcher limit) on this large asset/content tree.
+                // These dirs don't need HMR-triggered re-watching during local dev.
+                ignored: ['**/src/assets/**', '**/src/content/**', '**/public/**'],
+            },
+        },
         resolve: {
             alias: {
                 '~': fileURLToPath(new URL('./src', import.meta.url)),
